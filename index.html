@@ -295,6 +295,11 @@ body.mobile .mwin .lights{display:none}
 body.mobile .mwin .wbody{overflow:visible;padding:16px 14px 20px}
 body.mobile .big{max-width:100%}
 body.mobile .grid2{grid-template-columns:1fr}
+body.mobile #flow{overflow-x:hidden}
+body.mobile .wl-hero{flex-direction:column;align-items:flex-start;gap:12px}
+body.mobile .wl-photo{width:112px;height:112px}
+body.mobile .contact-row{flex-wrap:wrap}
+body.mobile .contact-row>div{min-width:0;overflow-wrap:anywhere}
 body.mobile .hint{display:none}
 body.mobile #vig,body.mobile #crt{display:none}
 
@@ -928,6 +933,7 @@ function buildMobile(){
   document.body.classList.add('mobile');
   const flow=document.getElementById('flow');
   APPS.forEach(a=>{
+    if(a.id==='works')return;
     const w=document.createElement('div');w.className='mwin';
     w.innerHTML='<div class="tbar"><div class="t-title">'+a.title+'<span class="en">'+a.en+'</span></div></div><div class="wbody"></div>';
     w.querySelector('.wbody').appendChild(fillBody(a));
