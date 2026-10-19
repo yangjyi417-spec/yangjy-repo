@@ -300,6 +300,12 @@ body.mobile .wl-hero{flex-direction:column;align-items:flex-start;gap:12px}
 body.mobile .wl-photo{width:112px;height:112px}
 body.mobile .contact-row{flex-wrap:wrap}
 body.mobile .contact-row>div{min-width:0;overflow-wrap:anywhere}
+body.mobile #mobnav{position:sticky;top:var(--bar-h);z-index:4000;display:flex;gap:8px;overflow-x:auto;padding:8px 12px;margin:0 -12px 12px;background:linear-gradient(#efefef,#dcdcdc);border-bottom:1px solid #000;box-shadow:0 2px 4px rgba(0,0,0,.15);-webkit-overflow-scrolling:touch;scrollbar-width:none}
+body.mobile #mobnav::-webkit-scrollbar{display:none}
+body.mobile #mobnav button{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font-family:var(--ui);font-size:12.5px;font-weight:800;color:#111;background:#fff;border:1px solid #000;border-radius:100px;padding:6px 12px;box-shadow:2px 2px 0 rgba(0,0,0,.2)}
+body.mobile #mobnav button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 rgba(0,0,0,.2)}
+body.mobile #mobnav svg{width:16px;height:16px;flex:0 0 auto}
+body.mobile .mwin{scroll-margin-top:calc(var(--bar-h) + 54px)}
 body.mobile .hint{display:none}
 body.mobile #vig,body.mobile #crt{display:none}
 
@@ -932,13 +938,19 @@ function wireContent(root){
 function buildMobile(){
   document.body.classList.add('mobile');
   const flow=document.getElementById('flow');
+  const nav=document.createElement('nav');nav.id='mobnav';
   APPS.forEach(a=>{
     if(a.id==='works')return;
-    const w=document.createElement('div');w.className='mwin';
+    const w=document.createElement('div');w.className='mwin';w.id='sec-'+a.id;
     w.innerHTML='<div class="tbar"><div class="t-title">'+a.title+'<span class="en">'+a.en+'</span></div></div><div class="wbody"></div>';
     w.querySelector('.wbody').appendChild(fillBody(a));
     flow.appendChild(w);
+    const b=document.createElement('button');b.type='button';
+    b.innerHTML='<svg><use href="#ic-'+a.icon+'"/></svg>'+a.title;
+    b.addEventListener('click',()=>{w.scrollIntoView({behavior:'smooth',block:'start'});});
+    nav.appendChild(b);
   });
+  flow.insertBefore(nav,flow.firstChild);
   wireContent(flow);
 }
 
